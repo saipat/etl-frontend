@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import './UploadScreen.css'
 
 export default function UploadScreen({ onUpload, error }) {
   const [dragging, setDragging] = useState(false)
@@ -18,30 +19,31 @@ export default function UploadScreen({ onUpload, error }) {
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <div style={styles.header}>
-          <h1 style={styles.title}>AI ETL Copilot</h1>
-          <p style={styles.subtitle}>
+    <div className="upload-page">
+      <div className="upload-card">
+
+        <div className="upload-header">
+          <h1 className="upload-title">AI ETL Copilot</h1>
+          <p className="upload-subtitle">
             Upload a CSV file and get instant schema inference,
             data quality analysis, and AI-powered recommendations.
           </p>
         </div>
 
         <div
-          style={{ ...styles.dropzone, ...(dragging ? styles.dropzoneDragging : {}) }}
+          className={`dropzone ${dragging ? 'dragging' : ''}`}
           onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
           onClick={() => inputRef.current.click()}
         >
-          <div style={styles.dropIcon}>📂</div>
+          <div className="drop-icon">📂</div>
           {selectedFile ? (
-            <p style={styles.fileName}>{selectedFile.name}</p>
+            <p className="file-name">{selectedFile.name}</p>
           ) : (
             <>
-              <p style={styles.dropText}>Drag & drop a CSV file here</p>
-              <p style={styles.dropHint}>or click to browse</p>
+              <p className="drop-text">Drag & drop a CSV file here</p>
+              <p className="drop-hint">or click to browse</p>
             </>
           )}
           <input
@@ -53,81 +55,17 @@ export default function UploadScreen({ onUpload, error }) {
           />
         </div>
 
-        {error && <div style={styles.error}>{error}</div>}
+        {error && <div className="upload-error">{error}</div>}
 
         <button
-          style={{
-            ...styles.button,
-            ...(selectedFile ? {} : styles.buttonDisabled)
-          }}
+          className="upload-btn"
           disabled={!selectedFile}
           onClick={() => onUpload(selectedFile)}
         >
           Analyze File
         </button>
+
       </div>
     </div>
   )
-}
-
-const styles = {
-  page: {
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '2rem',
-  },
-  card: {
-    background: '#fff',
-    borderRadius: 16,
-    padding: '2.5rem',
-    width: '100%',
-    maxWidth: 540,
-    boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-  },
-  header: { marginBottom: '2rem', textAlign: 'center' },
-  title: { fontSize: 28, fontWeight: 700, marginBottom: 8, color: '#1a1a1a' },
-  subtitle: { fontSize: 15, color: '#666', lineHeight: 1.6 },
-  dropzone: {
-    border: '2px dashed #d0d0d0',
-    borderRadius: 12,
-    padding: '2.5rem',
-    textAlign: 'center',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    marginBottom: '1.5rem',
-    background: '#fafafa',
-  },
-  dropzoneDragging: {
-    borderColor: '#4f46e5',
-    background: '#eef2ff',
-  },
-  dropIcon: { fontSize: 36, marginBottom: 12 },
-  dropText: { fontSize: 15, color: '#444', marginBottom: 4 },
-  dropHint: { fontSize: 13, color: '#999' },
-  fileName: { fontSize: 15, color: '#4f46e5', fontWeight: 500 },
-  error: {
-    background: '#fef2f2',
-    color: '#dc2626',
-    padding: '0.75rem 1rem',
-    borderRadius: 8,
-    fontSize: 14,
-    marginBottom: '1rem',
-  },
-  button: {
-    width: '100%',
-    padding: '0.875rem',
-    background: '#4f46e5',
-    color: '#fff',
-    border: 'none',
-    borderRadius: 10,
-    fontSize: 16,
-    fontWeight: 600,
-    cursor: 'pointer',
-  },
-  buttonDisabled: {
-    background: '#c7c7c7',
-    cursor: 'not-allowed',
-  },
 }
