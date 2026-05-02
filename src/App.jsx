@@ -4,7 +4,7 @@ import LoadingScreen from './components/LoadingScreen'
 import ResultsScreen from './components/ResultsScreen'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3001/analyze'
+const API_URL = 'https://ai-etl-copilot.onrender.com/analyze'
 
 export default function App() {
   const [screen, setScreen] = useState('upload') // upload | loading | results
